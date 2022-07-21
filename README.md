@@ -3,6 +3,9 @@
 - [Bicep](https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep)
 - [Azure Functions](https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview)
 
+
+![screenshot](docs/screenshot.png)
+
 # Usage
 
 ```shell
