@@ -1,0 +1,36 @@
+trigger:
+- master
+
+name: Deploy Infrastructure
+
+variables:
+  vmImageName: 'ubuntu-latest'
+
+  azureServiceConnection: '<your-connection-name>'
+  resourceGroupName: 'exampleRG'
+  name: '<name>'
+  location: 'westeurope'
+  templateFile: 'main.bicep'
+pool:
+  vmImage: $(vmImageName)
+
+steps:
+- task: AzureCLI@2
+  name: Deploy Infrastructure
+  inputs:
+    azureSubscription: $(azureServiceConnection)
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      az --version
+      az bicep install
+       
+      az deployment group create \
+        --resource-group $(resourceGroupName) \
+        --template-file $(templateFile) \
+        --parameters name=$(name) location=$(location)
+- task: AzureCLI@2
+  name: Deploy Code
+  inputs:
+    inlineScript: |
+      func azure functionapp publish ${NAME} --build remote
